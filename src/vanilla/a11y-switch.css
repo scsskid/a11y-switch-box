@@ -12,14 +12,6 @@
 /* The Component */
 
 .a11y-switch {
-  *,
-  *::after,
-  *::before {
-    /* box-sizing: border-box; */
-  }
-}
-
-.a11y-switch {
   --w: 5.6em;
   --h: 3em;
   --pad: 0.3em;
