@@ -1,7 +1,5 @@
 /* Focus Styles */
 
-/* box-sizing: border-box; */
-
 :focus {
   outline-width: 0;
 }
@@ -14,18 +12,26 @@
 /* The Component */
 
 .a11y-switch {
-  --w: 6em;
+  *,
+  *::after,
+  *::before {
+    box-sizing: border-box;
+  }
+}
+
+.a11y-switch {
+  --w: 6.2em;
   --h: 3em;
   --pad: 4px;
-  --transition-time: 150ms;
-  --dotheight: calc(var(--h) - 2 * var(--pad));
+  --transition-time: 200ms;
+  --knob-size: calc(var(--h) - 2 * var(--pad));
   --hue: 200;
   --bg-color: hsl(var(--hue) 10% 55%);
   --bg-color-hover: hsl(var(--hue) 10% 40%);
   --bg-color-checked: hsl(var(--hue) 90% 55%);
   --bg-color-checked-hover: hsl(var(--hue) 90% 40%);
-  --dot-color: hsl(var(--hue) 55% 100%);
-  --dot-color-checked: var(--dot-color);
+  --knob-color: hsl(var(--hue) 55% 100%);
+  --knob-color-checked: var(--knob-color);
 
   label {
     display: flex;
@@ -46,54 +52,69 @@
     height: var(--h);
     padding-left: var(--pad);
     padding-right: var(--pad);
-    display: flex;
+
+    /* display: flex; */
     gap: var(--pad);
 
-    align-items: center;
-
+    /* align-items: center; */
     border-radius: 9999px;
+    position: relative;
 
     &:checked {
       background: var(--bg-color-checked);
+    }
+
+    &:hover {
+      background: var(--bg-color-hover);
+    }
+
+    &:checked:hover {
+      background: var(--bg-color-checked-hover);
     }
   }
 
   /* The Knob */
 
   [type="checkbox"]::before {
-    /* display: block; */
-    --size: calc(var(--h) - 2 * var(--pad));
-
-    transition: transform var(--transition-time);
-    flex-shrink: 0;
+    position: absolute;
+    left: var(--pad);
+    top: var(--pad);
+    transition: var(--transition-time);
     content: "";
-    width: var(--size);
-    height: var(--size);
-    background-color: var(--dot-color);
+    width: var(--knob-size);
+    height: var(--knob-size);
+    background-color: var(--knob-color);
     border-radius: 9999px;
-    position: relative;
     z-index: 10;
   }
 
   [type="checkbox"]:checked::before {
-    transform: translateX(calc(var(--w) - var(--size) - 2 * var(--pad)));
+    left: calc(100% - var(--pad));
+    transform: translateX(-100%);
+  }
+
+  label:active [type="checkbox"]::before {
+    width: calc(var(--knob-size) + 5px);
   }
 
   /* On / Off Indicator */
 
   [type="checkbox"]::after {
-    transition: transform var(--transition-time);
-    flex-shrink: 0;
-    flex-grow: 1;
+    transition: var(--transition-time);
+    position: absolute;
+    left: calc(var(--knob-size) + var(--pad));
+    top: 0;
+    bottom: 0;
     content: attr(data-indicator-unchecked);
     padding: calc(var(--pad) * 2);
     text-align: center;
-    background-color: hsla(var(--hue) 50% 40% / 50%);
+    /* background-color: hsla(var(--hue) 50% 40% / 50%); */
+    width: calc(100% - var(--knob-size) - 1 * var(--pad));
   }
 
   [type="checkbox"]:checked::after {
     content: attr(data-indicator-checked);
-    transform: translateX(calc(-1 * var(--w) + 100% + 2 * var(--pad)));
+    left: 0;
   }
 }
 
