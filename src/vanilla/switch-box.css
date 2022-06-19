@@ -1,0 +1,110 @@
+.switch-box {
+  --w: 65px;
+  --h: 35px;
+  --pad: 3px;
+  --dotheight: calc(var(--h) - 2 * var(--pad));
+  --hue: 200;
+  --bg-color: hsl(var(--hue) 10% 55%);
+  --bg-color-hover: hsl(var(--hue) 10% 40%);
+  --bg-color-checked: hsl(var(--hue) 90% 55%);
+  --bg-color-checked-hover: hsl(var(--hue) 90% 40%);
+  --dot-color: hsl(var(--hue) 55% 100%);
+  --dot-color-checked: var(--dot-color);
+
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  flex-direction: row-reverse;
+}
+
+.visual-label {
+  padding-right: 2rem;
+}
+
+.switch-box input[type="checkbox"] {
+  height: 100%;
+  width: 100%;
+}
+
+.switch-box label {
+  cursor: pointer;
+  width: var(--w);
+  height: var(--h);
+  display: block;
+  background-color: var(--bg-color);
+  border-radius: 9999px;
+  position: relative;
+  flex-shrink: 0;
+  transition: background-color 200ms;
+
+  /* text-indent: -9999px; */
+}
+
+.switch-box:hover label {
+  background-color: var(--bg-color-hover);
+}
+
+.switch-box input:checked + label {
+  background-color: var(--bg-color-checked);
+  color: #fff;
+}
+
+.switch-box:hover input:checked + label {
+  background-color: var(--bg-color-checked-hover);
+}
+
+.switch-box label::after {
+  content: "";
+  position: absolute;
+  top: var(--pad);
+  left: var(--pad);
+  width: var(--dotheight);
+  height: var(--dotheight);
+  background-color: var(--dot-color);
+  border-radius: 9999px;
+  transition: 0.3s;
+}
+
+/* Lean into target position (works for both directions due absolute positioning left/right */
+
+.switch-box label:active::after {
+  width: calc(var(--dotheight) + 5px);
+}
+
+.switch-box input:checked + label::after {
+  background-color: var(--dot-color-checked);
+  left: calc(100% - var(--pad));
+  transform: translateX(-100%);
+}
+
+.switch-box label::before {
+  --translate-offset: 10px;
+
+  content: "ON";
+  padding-left: 10px;
+  padding-right: 10px;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--w) - var(--translate-offset));
+  height: var(--h);
+  font-size: 0.6em;
+  font-weight: bold;
+  z-index: 100;
+  text-indent: 0;
+  opacity: 0;
+  display: flex;
+  transform: translateX(var(--translate-offset));
+  transition: 200ms opacity, 200ms transform;
+}
+
+.switch-box input:checked + label::before {
+  opacity: 1;
+  transform: translateX(0);
+  transition: 200ms 200ms opacity, 200ms 200ms transform;
+}
+
+.switch-box .display-label {
+  text-indent: 0;
+}

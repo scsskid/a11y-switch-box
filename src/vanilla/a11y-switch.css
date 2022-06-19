@@ -1,0 +1,94 @@
+/* Focus Styles */
+
+box-sizing: border-box;
+
+:focus {
+  outline-width: 0;
+}
+
+:focus-visible {
+  outline: 2px solid #aaa;
+  outline-offset: 6px;
+}
+
+/* The Component */
+
+.a11y-switch {
+  --w: 12em;
+  --h: 6em;
+
+  --pad: 4px;
+  --dotheight: calc(var(--h) - 2 * var(--pad));
+  --hue: 200;
+  --bg-color: hsl(var(--hue) 10% 55%);
+  --bg-color-hover: hsl(var(--hue) 10% 40%);
+  --bg-color-checked: hsl(var(--hue) 90% 55%);
+  --bg-color-checked-hover: hsl(var(--hue) 90% 40%);
+  --dot-color: hsl(var(--hue) 55% 100%);
+  --dot-color-checked: var(--dot-color);
+
+  font-size: 2rem;
+
+  label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  /* The Box */
+
+  [type="checkbox"] {
+    margin-right: calc(var(--h) / 3);
+    pointer-events: none;
+    appearance: none;
+    position: relative;
+    background: var(--bg-color);
+    width: var(--w);
+    height: var(--h);
+
+    padding-left: var(--pad);
+    padding-right: var(--pad);
+    display: flex;
+    gap: var(--pad);
+    /* justify-content: space-between; */
+    align-items: center;
+    /* border-radius: 9999px; */
+
+    &:checked {
+      background: var(--bg-color-checked);
+    }
+  }
+
+  /* The Knob */
+
+  [type="checkbox"]::before {
+    /* display: block; */
+    --size: calc(var(--h) - 2 * var(--pad));
+
+    flex-shrink: 0;
+    content: "";
+    width: var(--size);
+    height: var(--size);
+    background-color: var(--dot-color);
+    border-radius: 9999px;
+  }
+
+  [type="checkbox"]:checked::before {
+    transform: translateX(calc(var(--w) - var(--size) - 2 * var(--pad)));
+  }
+
+  /* On / Off Indicator */
+
+  [type="checkbox"]::after {
+    flex-shrink: 0;
+    flex-grow: 1;
+    content: attr(data-indicator-unchecked);
+    padding: 10px;
+    text-align: center;
+    background-color: hsla(var(--hue) 50% 40% / 0.5);
+  }
+
+  [type="checkbox"]:checked::after {
+    content: attr(data-indicator-checked);
+  }
+}
