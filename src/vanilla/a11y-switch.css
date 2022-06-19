@@ -23,7 +23,7 @@
   --w: 5.6em;
   --h: 3em;
   --pad: 4px;
-  --transition-time: 250ms;
+  --transition-time: 150ms;
   --knob-size: calc(var(--h) - 2 * var(--pad));
   --hue: 200;
   --bg-color: hsl(var(--hue) 10% 55%);
@@ -109,25 +109,30 @@
   }
 
   label:active [type="checkbox"]::before {
-    width: calc(var(--knob-size) + 10px);
+    width: calc(var(--knob-size) + 6px);
   }
 
   /* On / Off Indicator */
 
   [type="checkbox"]::after {
     position: absolute;
-    left: calc(var(--knob-size) + var(--pad));
+    left: calc(var(--knob-size) + 2.5 * var(--pad));
     top: 0;
     bottom: 0;
     content: attr(data-indicator-unchecked);
     padding: calc(var(--pad) * 2);
     text-align: center;
-    width: calc(100% - var(--knob-size) - 1 * var(--pad));
+    width: auto;
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #fff;
   }
 
   [type="checkbox"]:checked::after {
     content: attr(data-indicator-checked);
-    left: 0;
+    left: var(--pad);
   }
 
   label:active [type="checkbox"]::after {
