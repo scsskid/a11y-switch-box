@@ -22,7 +22,7 @@
 .a11y-switch {
   --w: 5.6em;
   --h: 3em;
-  --pad: 4px;
+  --pad: 0.3em;
   --transition-time: 150ms;
   --knob-size: calc(var(--h) - 2 * var(--pad));
   --hue: 200;
