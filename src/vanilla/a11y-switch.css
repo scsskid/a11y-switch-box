@@ -1,6 +1,6 @@
 /* Focus Styles */
 
-box-sizing: border-box;
+/* box-sizing: border-box; */
 
 :focus {
   outline-width: 0;
@@ -14,10 +14,10 @@ box-sizing: border-box;
 /* The Component */
 
 .a11y-switch {
-  --w: 12em;
-  --h: 6em;
-
+  --w: 6em;
+  --h: 3em;
   --pad: 4px;
+  --transition-time: 150ms;
   --dotheight: calc(var(--h) - 2 * var(--pad));
   --hue: 200;
   --bg-color: hsl(var(--hue) 10% 55%);
@@ -27,12 +27,11 @@ box-sizing: border-box;
   --dot-color: hsl(var(--hue) 55% 100%);
   --dot-color-checked: var(--dot-color);
 
-  font-size: 2rem;
-
   label {
     display: flex;
     align-items: center;
     cursor: pointer;
+    user-select: none;
   }
 
   /* The Box */
@@ -45,14 +44,14 @@ box-sizing: border-box;
     background: var(--bg-color);
     width: var(--w);
     height: var(--h);
-
     padding-left: var(--pad);
     padding-right: var(--pad);
     display: flex;
     gap: var(--pad);
-    /* justify-content: space-between; */
+
     align-items: center;
-    /* border-radius: 9999px; */
+
+    border-radius: 9999px;
 
     &:checked {
       background: var(--bg-color-checked);
@@ -65,12 +64,15 @@ box-sizing: border-box;
     /* display: block; */
     --size: calc(var(--h) - 2 * var(--pad));
 
+    transition: transform var(--transition-time);
     flex-shrink: 0;
     content: "";
     width: var(--size);
     height: var(--size);
     background-color: var(--dot-color);
     border-radius: 9999px;
+    position: relative;
+    z-index: 10;
   }
 
   [type="checkbox"]:checked::before {
@@ -80,15 +82,24 @@ box-sizing: border-box;
   /* On / Off Indicator */
 
   [type="checkbox"]::after {
+    transition: transform var(--transition-time);
     flex-shrink: 0;
     flex-grow: 1;
     content: attr(data-indicator-unchecked);
-    padding: 10px;
+    padding: calc(var(--pad) * 2);
     text-align: center;
-    background-color: hsla(var(--hue) 50% 40% / 0.5);
+    background-color: hsla(var(--hue) 50% 40% / 50%);
   }
 
   [type="checkbox"]:checked::after {
     content: attr(data-indicator-checked);
+    transform: translateX(calc(-1 * var(--w) + 100% + 2 * var(--pad)));
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .a11y-switch *::before,
+  .a11y-switch *::after {
+    transition: 0s !important;
   }
 }
